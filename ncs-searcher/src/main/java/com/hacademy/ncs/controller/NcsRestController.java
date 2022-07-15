@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hacademy.ncs.http.response.NcsModuleCriteriaResponse;
 import com.hacademy.ncs.http.response.NcsModuleDetailResponse;
 import com.hacademy.ncs.http.response.NcsModuleListItem;
+import com.hacademy.ncs.http.response.NcsTreeListItem;
 import com.hacademy.ncs.service.NcsSearcherService;
 
 @CrossOrigin
@@ -22,8 +23,9 @@ public class NcsRestController {
 	private NcsSearcherService ncsSearcherService;
 	
 	@GetMapping("/")
-	public List<NcsModuleListItem> all() throws IOException{
-		return ncsSearcherService.getNcsModuleList().getData();
+	public List<NcsTreeListItem> all() throws IOException{
+		//return ncsSearcherService.getNcsModuleList().getData();
+		return ncsSearcherService.getNcsModuleListAtJson().getList();
 	}
 	
 	@GetMapping("/detail/{main}/{sub}")

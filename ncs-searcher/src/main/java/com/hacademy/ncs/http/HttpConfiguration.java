@@ -20,9 +20,4 @@ public class HttpConfiguration {
 							.build();
 	}
 	
-	@Bean
-	public ObjectMapper objectMapper() {
-		return new ObjectMapper();
-	}
-	
 }

@@ -11,4 +11,11 @@ public class NcsModuleListItem {
 	private String ncsMclasCd, ncsMclasCdNm;
 	private String ncsSclasCd, ncsSclasCdNm;
 	private String ncsSubdCd, ncsSubdCdNm;
+	
+	public String code() {
+		return ncsLclasCd + ncsMclasCd + ncsSclasCd + ncsSubdCd;
+	}
+	public boolean is(String code) {
+		return this.code().startsWith(code);
+	}
 }

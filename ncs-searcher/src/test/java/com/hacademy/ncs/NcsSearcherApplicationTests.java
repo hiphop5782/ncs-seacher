@@ -17,6 +17,7 @@ import com.hacademy.ncs.http.response.NcsModuleListItem;
 import com.hacademy.ncs.http.response.NcsModuleListResponse;
 import com.hacademy.ncs.property.CustomProperties;
 import com.hacademy.ncs.service.NcsSearcherService;
+import com.hacademy.ncs.service.schedule.ModuleLoadScheduler;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -88,12 +89,20 @@ class NcsSearcherApplicationTests {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void creteria() throws IOException {
 		NcsModuleCriteriaResponse response = searchService.getNcsModuleCriteria("20010202", "01");
 		for(NcsModuleCriteria criteria : response) {
 			System.out.println(criteria);
 		}
+	}
+	
+	@Autowired
+	private ModuleLoadScheduler scheduler;
+	
+	@Test
+	public void autoloadAndSave() throws IOException {
+		scheduler.refresh();
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.hacademy.ncs.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -7,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hacademy.ncs.configuration.JsonConfiguration;
 import com.hacademy.ncs.http.HttpUtils;
 import com.hacademy.ncs.http.response.NcsModuleCriteriaResponse;
-import com.hacademy.ncs.http.response.NcsModuleDetail;
 import com.hacademy.ncs.http.response.NcsModuleDetailResponse;
 import com.hacademy.ncs.http.response.NcsModuleListResponse;
+import com.hacademy.ncs.http.response.NcsModuleSubListResponse;
+import com.hacademy.ncs.http.response.NcsTreeListResponse;
 import com.hacademy.ncs.property.CustomProperties;
 
 import okhttp3.Response;
@@ -27,6 +30,9 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 	
 	@Autowired
 	private ObjectMapper mapper;
+	
+	@Autowired
+	private File directory;
 	
 	private void dutyCdCheck(String dutyCd) {
 		if(dutyCd == null || dutyCd.length() != 8) throw new IllegalArgumentException("분류코드는 8자리로 작성되어야 합니다");
@@ -77,6 +83,11 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 		return response;
 	}
 	@Override
+	public NcsTreeListResponse getNcsModuleListAtJson() throws IOException {
+		File target = new File(directory, JsonConfiguration.MODULE_JSON);
+		return mapper.readValue(target, NcsTreeListResponse.class);
+	}
+	@Override
 	public NcsModuleCriteriaResponse getNcsModuleCriteria(String dutyCd, String compUnitCd) throws IOException {
 		dutyCdCheck(dutyCd);
 		compUnitCd(compUnitCd);
@@ -92,6 +103,21 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 							"numOfRows", 100
 						)
 		);
+		
 		return mapper.readValue(response.body().string(), NcsModuleCriteriaResponse.class);
+	}
+	@Override
+	public NcsModuleSubListResponse getNcsModuleSubList(String dutyCd) throws IOException {
+		String url = "https://www.ncs.go.kr/api/openapi3.do";
+		Response response = httpUtils.get(url, 
+				Map.of(
+							"serviceKey", props.getServiceKey(),
+							"returnType", "json",
+							"dutyCd", dutyCd,
+							"pageNo", 1,
+							"numOfRows", 100
+						)
+		);
+		return mapper.readValue(response.body().string(), NcsModuleSubListResponse.class);
 	}
 }
