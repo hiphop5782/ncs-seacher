@@ -1,15 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <module-search></module-search>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ModuleSearchVue from './components/ModuleSearch.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    "module-search": ModuleSearchVue
   }
 }
 </script>
