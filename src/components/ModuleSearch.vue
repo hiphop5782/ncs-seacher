@@ -5,16 +5,17 @@
     <ul class="list-group data-list">
         <li class="list-group-item text-start" v-for="(module, index) in filterList" :key="index"
                     @click.self="loadModuleDetail(index)">
-            <span class="badge badge-secondary bg-dark me-2">{{module.ncsClCd}}</span>
+            <span class="badge bg-dark me-2">{{module.ncsClCd}}</span>
             {{module.compUnitName}}
             <span class="arrow" :class="{down:module.detailVisible}"></span>
             
             <ul class="list-group mt-2" v-if="module.detailVisible">
-                <li class="list-group-item detail-list" v-for="(detail, subIndex) in module.detail.data" :key="subIndex" @click="copyToClipboard(detail)">
-                    <span class="badge badge-primary bg-primary me-1">{{detail.gbnName}}</span>
-                    <span class="sub-title">{{detail.compUnitFactrName}}</span>
-                    <br>
-                    <span class="copy-value">{{detail.gbnVal}}</span>
+                <li class="list-group-item detail-list d-flex" v-for="(detail, subIndex) in module.detail.data" :key="subIndex">
+                    <div class="col-sm-2"><span class="badge me-1" :class="getBadgeClass(detail.gbnName)">{{detail.gbnName}}</span></div>
+                    <div class="col-sm-10 d-grid gap-1">
+                        <span class="sub-title" @click="copyToClipboard(detail.compUnitFactrName)"><b>{{detail.compUnitFactrName}}</b></span>
+                        <span class="copy-value" @click="copyToClipboard(detail.gbnVal)">{{detail.compUnitFactrNo}}-{{detail.gbnVal}}</span>
+                    </div>
                 </li>
             </ul>
         </li>
@@ -52,6 +53,14 @@ export default {
             else {
                 const resp = await this.$http.get(this.$host + "/criteria/"+module.dutyCd+"/"+module.compUnitCd);
                 this.filterList[index].detail = resp.data;
+                if(this.filterList[index].detail.data.length > 1){
+                    this.filterList[index].detail.data.sort((a, b)=>{
+                        if(a.bgnCd != b.gbnCd){
+                            return a.gbnCd.localeCompare(b.gbnCd);
+                        }
+                        return a.gbnVal.localeCompare(b.gbnVal);
+                    });
+                }
                 module.detailVisible = true;
             }
         },
@@ -79,10 +88,19 @@ export default {
         getModuleCode(module){
             return module.ncsLclasCd + module.ncsMclasCd + module.ncsSclasCd + module.ncsSubdCd;
         },
-        copyToClipboard(detail){
-            this.$copyText(detail.gbnVal);
+        copyToClipboard(value){
+            this.$copyText(value);
             toast.success("복사 완료");
         },
+        getBadgeClass(value){
+            switch(value){
+                case "수행준거": return "bg-primary";
+                case "지식": return "bg-info";
+                case "기술": return "bg-success";
+                case "태도": return "bg-secondary";
+            }
+            return "";
+        }
     },
     watch:{
         keyword(){
@@ -128,7 +146,8 @@ export default {
     .data-list::-webkit-scrollbar {
         width:1px;
     }
-    .detail-list > .copy-value:hover {
+    .detail-list .copy-value:hover,
+    .detail-list .sub-title:hover {
         color:var(--bs-danger);
     }
 </style>
