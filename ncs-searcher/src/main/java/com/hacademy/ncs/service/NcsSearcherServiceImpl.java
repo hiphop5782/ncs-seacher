@@ -46,7 +46,7 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 		dutyCdCheck(dutyCd);
 		compUnitCd(compUnitCd);
 		
-		String url = "https://www.ncs.go.kr/api/openapi4.do";
+		String url = "//www.ncs.go.kr/api/openapi4.do";
 		Response response = httpUtils.get(url, 
 				Map.of(
 							"serviceKey", props.getServiceKey(),
@@ -61,7 +61,7 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 	}
 	@Override
 	public NcsModuleListResponse getNcsModuleList(int page, int size) throws IOException {
-		String url = "https://www.ncs.go.kr/api/openapi1.do";
+		String url = "//www.ncs.go.kr/api/openapi1.do";
 		Response response = httpUtils.get(url, 
 				Map.of(
 							"serviceKey", props.getServiceKey(),
@@ -92,7 +92,7 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 		dutyCdCheck(dutyCd);
 		compUnitCd(compUnitCd);
 		
-		String url = "https://www.ncs.go.kr/api/openapi5.do";
+		String url = "//www.ncs.go.kr/api/openapi5.do";
 		Response response = httpUtils.get(url, 
 				Map.of(
 							"serviceKey", props.getServiceKey(),
@@ -108,7 +108,7 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 	}
 	@Override
 	public NcsModuleSubListResponse getNcsModuleSubList(String dutyCd) throws IOException {
-		String url = "https://www.ncs.go.kr/api/openapi3.do";
+		String url = "//www.ncs.go.kr/api/openapi3.do";
 		Response response = httpUtils.get(url, 
 				Map.of(
 							"serviceKey", props.getServiceKey(),
