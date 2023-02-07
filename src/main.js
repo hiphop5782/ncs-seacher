@@ -14,7 +14,7 @@ import "vue-toastification/dist/index.css";
 const app = createApp(App);
 
 app.config.globalProperties.$http = axios;
-app.config.globalProperties.$host = "http://api.sysout.co.kr/ncs-searcher";
+app.config.globalProperties.$host = "https://www.sysout.co.kr/ncs-module/";
 
 app.use(VueClipboard)
         .use(Toast, {
