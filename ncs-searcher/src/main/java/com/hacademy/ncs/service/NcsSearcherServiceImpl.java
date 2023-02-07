@@ -74,7 +74,7 @@ public class NcsSearcherServiceImpl implements NcsSearcherService{
 	}
 	@Override
 	public NcsModuleListResponse getNcsModuleList() throws IOException {
-		int page = 1, size = 100;
+		int page = 1, size = 1000;
 		NcsModuleListResponse response = getNcsModuleList(page, size);
 		int total = response.getDataInfo().getTotalPage();
 		for(int i=page+1; i <= total; i++) {

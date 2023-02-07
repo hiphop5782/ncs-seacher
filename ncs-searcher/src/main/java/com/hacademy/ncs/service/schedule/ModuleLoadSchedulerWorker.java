@@ -3,6 +3,8 @@ package com.hacademy.ncs.service.schedule;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,11 @@ public class ModuleLoadSchedulerWorker implements ModuleLoadScheduler {
 
 	@Autowired
 	private File directory;
+	
+	@PostConstruct
+	public void init() throws IOException {
+		refresh();
+	}
 	
 	@Scheduled(cron = "0 0 0 * * *")
 	@Override

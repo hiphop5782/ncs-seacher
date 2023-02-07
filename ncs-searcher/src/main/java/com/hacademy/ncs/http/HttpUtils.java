@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -19,11 +20,11 @@ public class HttpUtils {
 	private OkHttpClient client;
 	
 	public HttpUrl createUrl(String url, Map<String, Object> params) {
-		HttpUrl.Builder builder = HttpUrl.parse(url).newBuilder();
+		HttpUrl.Builder builder = HttpUrl.parse("http://"+url).newBuilder();
 		for(Entry<String, Object> entry : params.entrySet()) {
 			builder.addQueryParameter(entry.getKey(), entry.getValue().toString());
 		}
-		return builder.build();
+		return builder.build(); 
 	}
 	public Request getRequest(String url, Map<String, Object> params) {
 		return new Request.Builder().url(createUrl(url, params)).build();
