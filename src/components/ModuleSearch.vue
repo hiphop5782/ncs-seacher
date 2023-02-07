@@ -70,6 +70,7 @@ export default {
                 return;
             }
 
+            console.log(this.moduleList);
             this.filterList = this.moduleList.filter(this.searchOperation);
         },
         searchOperation(m){
